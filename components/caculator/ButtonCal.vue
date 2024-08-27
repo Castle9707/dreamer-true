@@ -1,14 +1,20 @@
 <script setup>
-defineProps({
+const props = defineProps({
   value:{
     type: [String,Number],
     required: true
   }
 })
+
+const emit = defineEmits(['click'])
+
+const handleClick = () => {
+  emit('click', props.value)
+}
 </script>
 
 <template>
-  <button @click="$emit('click', value)" class="w-14 h-14 text-black rounded-lg flex justify-center items-center bg-gradient-to-r from-gray-400 to-gray-100 active:from-gray-500 active:to-gray-200 btn-shadow m-1">
+  <button @click="handleClick" class="w-14 h-14 text-black rounded-lg flex justify-center items-center bg-gradient-to-r from-gray-400 to-gray-100 active:from-gray-500 active:to-gray-200 btn-shadow m-1">
     {{value}}
   </button>
 </template>
