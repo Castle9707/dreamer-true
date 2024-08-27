@@ -1,5 +1,6 @@
 <template>
   <Tutorial/>
+  <div>12345</div>
 </template>
 
 <script>
