@@ -9,7 +9,7 @@
     <nav>
       <ul>
         <li><NuxtLink to="/about">About</NuxtLink></li>
-        <li><NuxtLink to="/caculator">Caculator</NuxtLink></li>
+        <li><NuxtLink to="/calculator">Calculator</NuxtLink></li>
       </ul>
     </nav>
   </header>
