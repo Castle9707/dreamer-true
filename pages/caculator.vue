@@ -1,5 +1,6 @@
 <script setup>
 import { ref,reactive } from 'vue';
+import ButtonCal from '../components/caculator/ButtonCal.vue';
 
 const number = reactive([0,1,2,3,4,5,6,7,8,9])
 </script>
@@ -13,33 +14,33 @@ const number = reactive([0,1,2,3,4,5,6,7,8,9])
       <h4 class="mx-5 mb-2">result</h4>
     </div>
     <div class="flex mt-2 mx-3">
-      <CaculatorButtonBlack />
-      <CaculatorButtonBlack />
-      <CaculatorButtonBlack />
-      <CaculatorButtonOrange />
+      <ButtonCal class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600" />
+      <ButtonCal class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600" />
+      <ButtonCal class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600" />
+      <ButtonCal class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400" />
     </div>
     <div class="flex mx-3">
-      <CaculatorButtonNumber />
-      <CaculatorButtonNumber />
-      <CaculatorButtonNumber />
-      <CaculatorButtonOrange />
+      <ButtonCal />
+      <ButtonCal />
+      <ButtonCal />
+      <ButtonCal class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400" />
     </div>
     <div class="flex mx-3">
-      <CaculatorButtonNumber />
-      <CaculatorButtonNumber />
-      <CaculatorButtonNumber />
-      <CaculatorButtonOrange />
+      <ButtonCal />
+      <ButtonCal />
+      <ButtonCal />
+      <ButtonCal class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400" />
     </div>
     <div class="flex mx-3">
-      <CaculatorButtonNumber />
-      <CaculatorButtonNumber />
-      <CaculatorButtonNumber />
-      <CaculatorButtonOrange />
+      <ButtonCal />
+      <ButtonCal />
+      <ButtonCal />
+      <ButtonCal class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400" />
     </div>
     <div class="flex mx-3">
-      <CaculatorButtonNumber class="w-30 mb-5" />
-      <CaculatorButtonNumber />
-      <CaculatorButtonOrange />
+      <ButtonCal class="w-30 mb-5" />
+      <ButtonCal />
+      <ButtonCal class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400" />
     </div>
   </div>
   
