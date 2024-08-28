@@ -2,7 +2,7 @@
 import { ref,computed } from 'vue';
 import ButtonCal from '../components/calculator/ButtonCal.vue';
 
-// 當前數字，按下數字按鈕，值就會更新
+// 正在輸入的數字，按下數字按鈕，值就會更新
 const currentNumber = ref('') 
 // 按下運算子操作符時，數字值（currentNumber）會被記錄在此
 const previousNumber = ref('')
@@ -12,6 +12,10 @@ const operation = ref('')
 const result = ref('')
 // 待處理操作，遇先乘除後加減時，加減運算子會被記錄於此
 const pendingOperation = ref('')
+
+// 當用戶輸入一個新的數字時，我們更新 currentNumber。
+// 當用戶輸入一個操作符時，我們將 currentNumber 移到 previousNumber，將操作符存入 operation，然後清空 currentNumber。
+// 當用戶按下等號或輸入另一個操作符時，我們使用 previousNumber、currentNumber 和 operation 來執行計算，將結果存入 result
 
 // 計算結果
 const calculateResult = () => {
@@ -35,8 +39,8 @@ const calculateResult = () => {
             result.value = (prev % current).toString()
             break
     }
-    previousNumber.value = result.value
-    currentNumber.value = ''
+    // previousNumber.value = result.value
+    // currentNumber.value = ''
   }
 
 const handleNumberClick = (num) => {
@@ -48,33 +52,55 @@ const handleNumberClick = (num) => {
 }
 
 const handleOperationClick = (op) => {
-  if (currentNumber.value === '' && result.value === '') {
-    // 如果沒有當前數字，只是更改操作符
+  if (currentNumber.value === '' && result.value === '' && previousNumber.value === '') {
+    return
+  }
+
+  if (currentNumber.value === '' && result.value !== '') {
     operation.value = op
+    previousNumber.value = result.value
+    result.value = ''
     return
   }
 
   if (previousNumber.value === '') {
     // 第一次輸入操作符
-    previousNumber.value = currentNumber.value || result.value
+    previousNumber.value = currentNumber.value
     currentNumber.value = ''
     operation.value = op
+    return
+  } 
+
+  // 已有之前的數字和操作符
+  if (operation.value === '*' || operation.value === '/'){
+    calculateResult()
+    previousNumber.value = result.value
+    result.value = ''
+  } else if (op === '*' || op === '/'){
+      if (pendingOperation.value){
+        const temp = result.value
+        calculateResult()
+        previousNumber.value = result.value
+        result.value = temp
+      }
   } else {
-    // 已有之前的數字和操作符
-    if ((operation.value === '*' || operation.value === '/') || ((op === '+' || op === '-') && (pendingOperation.value === '' || pendingOperation.value === '+' || pendingOperation.value === '-'))) {
-       // 如果之前的操作是乘除，或者新操作是加減且沒有待處理的操作，立即計算
-      calculateResult()
-      operation.value = op
-    } else if (op === '+' || op === '-') {
-      // 如果新的操作是乘除，保存之前的加減操作
-        pendingOperation.value = operation.value
-        operation.value = op
-        previousNumber.value = currentNumber.value
-        currentNumber.value = ''
-    }
+      if (pendingOperation.value){
+        const temp = previousNumber.value
+        calculateResult()
+        previousNumber.value = result.value
+        currentNumber.value = temp
+        calculateResult()
+        previousNumber.value = result.value
+        result.value = ''
+      } else {
+        calculateResult()
+        previousNumber.value = result.value
+        result.value = ''
+      }
   }
-  // 在每次操作後清空 currentNumber
-  currentNumber.value = ''
+  operation.value = op
+  pendingOperation.value = (op === '+' || op === '-') ? op : ''
+  currentNumber.value = '' // 在每次操作後清空 currentNumber
 }
 
 const handleToggleSign = () => {
@@ -86,18 +112,19 @@ const handleToggleSign = () => {
 }
 
 const handleEqualsClick = () => {
-  if (operation.value !== '') {
-        calculateResult()
-        if (pendingOperation.value !== '') {
-            operation.value = pendingOperation.value
-            pendingOperation.value = ''
-            previousNumber.value = result.value
-            currentNumber.value = ''
-            result.value = ''
-        } else {
-            operation.value = ''
-        }
-    }
+  if (operation.value === '') return
+
+  if (currentNumber.value === '' && pendingOperation.value) {
+      operation.value = pendingOperation.value
+      pendingOperation.value = ''
+      currentNumber.value = previousNumber.value
+  }
+
+  calculateResult()
+  previousNumber.value = ''
+  currentNumber.value = ''
+  operation.value = ''
+  pendingOperation.value = ''
 }
 
 const handleClearClick = () => {
@@ -117,7 +144,7 @@ const displayValue = computed(() => {
   let value
   if (currentNumber.value !== '') {
     value = currentNumber.value
-  } else if (operation.value !== '' && previousNumber.value !== '') {
+  } else if (previousNumber.value !== '') {
     value = previousNumber.value
   } else if (result.value !== '') {
     value = result.value
