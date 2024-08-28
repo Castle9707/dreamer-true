@@ -13,35 +13,59 @@ const result = ref('')
 // 待處理操作，遇先乘除後加減時，加減運算子會被記錄於此
 const pendingOperation = ref('')
 
-// 當用戶輸入一個新的數字時，我們更新 currentNumber。
-// 當用戶輸入一個操作符時，我們將 currentNumber 移到 previousNumber，將操作符存入 operation，然後清空 currentNumber。
+// 當用戶輸入一個新的數字時，更新 currentNumber。
+// 當用戶輸入一個操作符時，將 currentNumber 移到 previousNumber，將操作符存入 operation，然後清空 currentNumber。
 // 當用戶按下等號或輸入另一個操作符時，我們使用 previousNumber、currentNumber 和 operation 來執行計算，將結果存入 result
 
-// 計算結果
-const calculateResult = () => {
-    const prev = parseFloat(previousNumber.value)
-    const current = parseFloat(currentNumber.value)
-
-    switch(operation.value) {
-        case '+':
-            result.value = (prev + current).toString()
-            break
-        case '-':
-            result.value = (prev - current).toString()
-            break
-        case '*':
-            result.value = (prev * current).toString()
-            break
-        case '/':
-            result.value = (prev / current).toString()
-            break
-        case '%':
-            result.value = (prev % current).toString()
-            break
+// 計算乘除
+const calculatePartialResult = () => {
+  const prev = parseFloat(previousNumber.value)
+  const current = parseFloat(currentNumber.value)
+  switch(operation.value) {
+    case '*':
+      return (prev * current).toString()
+    case '/':
+      return (prev / current).toString()
+    default:
+      return currentNumber.value
     }
-    // previousNumber.value = result.value
-    // currentNumber.value = ''
-  }
+}
+// 計算最終結果
+const calculateFinalResult = () => {
+  let finalResult = parseFloat(previousNumber.value)
+  const current = parseFloat(currentNumber.value)
+  switch(pendingOperation.value) {
+    case '+':
+      finalResult += current
+      break
+    case '-':
+      finalResult -= current
+      break
+    }
+  return finalResult.toString()
+}
+// const calculateResult = () => {
+//     const prev = parseFloat(previousNumber.value)
+//     const current = parseFloat(currentNumber.value)
+
+//     switch(operation.value) {
+//         case '+':
+//             result.value = (prev + current).toString()
+//             break
+//         case '-':
+//             result.value = (prev - current).toString()
+//             break
+//         case '*':
+//             result.value = (prev * current).toString()
+//             break
+//         case '/':
+//             result.value = (prev / current).toString()
+//             break
+//         case '%':
+//             result.value = (prev % current).toString()
+//             break
+//     }
+//   }
 
 const handleNumberClick = (num) => {
   if (operation.value !== '' && currentNumber.value === ''){
@@ -71,36 +95,30 @@ const handleOperationClick = (op) => {
     return
   } 
 
-  // 已有之前的數字和操作符
-  if (operation.value === '*' || operation.value === '/'){
-    calculateResult()
-    previousNumber.value = result.value
-    result.value = ''
-  } else if (op === '*' || op === '/'){
-      if (pendingOperation.value){
-        const temp = result.value
-        calculateResult()
+  if (operation.value === '*' || operation.value === '/') {
+    // 執行乘除
+      result.value = calculatePartialResult()
+      previousNumber.value = result.value
+      currentNumber.value = ''
+    } else if (op === '+' || op === '-') {
+      if (operation.value === '*' || operation.value === '/') {
+        result.value = calculatePartialResult()
         previousNumber.value = result.value
-        result.value = temp
+        currentNumber.value = ''
+        operation.value = '' // 清除乘除操作
       }
-  } else {
-      if (pendingOperation.value){
-        const temp = previousNumber.value
-        calculateResult()
+
+      // 如果有待處理的加減，先計算加減
+      if (pendingOperation.value) {
+        result.value = calculateFinalResult()
         previousNumber.value = result.value
-        currentNumber.value = temp
-        calculateResult()
-        previousNumber.value = result.value
-        result.value = ''
-      } else {
-        calculateResult()
-        previousNumber.value = result.value
-        result.value = ''
+        currentNumber.value = ''
       }
+      pendingOperation.value = op
+    } else {
+    operation.value = op
   }
-  operation.value = op
-  pendingOperation.value = (op === '+' || op === '-') ? op : ''
-  currentNumber.value = '' // 在每次操作後清空 currentNumber
+
 }
 
 const handleToggleSign = () => {
@@ -112,15 +130,14 @@ const handleToggleSign = () => {
 }
 
 const handleEqualsClick = () => {
-  if (operation.value === '') return
+  if (operation.value === '' && pendingOperation.value === '') return
 
-  if (currentNumber.value === '' && pendingOperation.value) {
-      operation.value = pendingOperation.value
-      pendingOperation.value = ''
-      currentNumber.value = previousNumber.value
+  if (operation.value === '*' || operation.value === '/') {
+      result.value = calculatePartialResult()
   }
-
-  calculateResult()
+  if (pendingOperation.value) {
+      result.value = calculateFinalResult()
+  }
   previousNumber.value = ''
   currentNumber.value = ''
   operation.value = ''
@@ -140,15 +157,16 @@ const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+// 上方顯示計算值與結果
 const displayValue = computed(() => {
   let value
   if (currentNumber.value !== '') {
     value = currentNumber.value
-  } else if (previousNumber.value !== '') {
-    value = previousNumber.value
   } else if (result.value !== '') {
     value = result.value
-  }else {
+  } else if (previousNumber.value !== '') {
+    value = previousNumber.value
+  } else {
     value = '0'
   }
   return formatNumber(value)
