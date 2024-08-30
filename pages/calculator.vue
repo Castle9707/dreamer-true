@@ -10,166 +10,182 @@ const previousNumber = ref('')
 const operation = ref('')
 // 最近一次的計算結果
 const result = ref('')
-// 待處理操作，遇先乘除後加減時，加減運算子會被記錄於此
+// 是否為新的算式開始（乘除就算是一個新的、須先運算的）
+const isNewOperation = ref(true)
+// 四則運算，預儲算式
 const pendingOperation = ref('')
+const pendingNumber = ref('')
 
-// 當用戶輸入一個新的數字時，更新 currentNumber。
-// 當用戶輸入一個操作符時，將 currentNumber 移到 previousNumber，將操作符存入 operation，然後清空 currentNumber。
-// 當用戶按下等號或輸入另一個操作符時，我們使用 previousNumber、currentNumber 和 operation 來執行計算，將結果存入 result
-
-// 計算乘除
-const calculatePartialResult = () => {
-  const prev = parseFloat(previousNumber.value)
-  const current = parseFloat(currentNumber.value)
-  switch(operation.value) {
-    case '*':
-      return (prev * current).toString()
-    case '/':
-      return (prev / current).toString()
-    default:
-      return currentNumber.value
-    }
+// 運算子、計算
+const calculate = (a, b, op) => {
+  a = parseFloat(a) || 0
+  b = parseFloat(b) || 0
+  switch(op) {
+    case '+': return (a + b).toString()
+    case '-': return (a - b).toString()
+    case '*': return (a * b).toString()
+    case '/': return (b !== 0 ? (a / b).toString() : 'Error')
+    default: return b.toString()
+  }
 }
-// 計算最終結果
-const calculateFinalResult = () => {
-  let finalResult = parseFloat(previousNumber.value)
-  const current = parseFloat(currentNumber.value)
-  switch(pendingOperation.value) {
-    case '+':
-      finalResult += current
-      break
-    case '-':
-      finalResult -= current
-      break
-    }
-  return finalResult.toString()
-}
-// const calculateResult = () => {
-//     const prev = parseFloat(previousNumber.value)
-//     const current = parseFloat(currentNumber.value)
 
-//     switch(operation.value) {
-//         case '+':
-//             result.value = (prev + current).toString()
-//             break
-//         case '-':
-//             result.value = (prev - current).toString()
-//             break
-//         case '*':
-//             result.value = (prev * current).toString()
-//             break
-//         case '/':
-//             result.value = (prev / current).toString()
-//             break
-//         case '%':
-//             result.value = (prev % current).toString()
-//             break
-//     }
-//   }
-
+// 按下數字鍵
 const handleNumberClick = (num) => {
-  if (operation.value !== '' && currentNumber.value === ''){
+  if (isNewOperation.value) {
     currentNumber.value = num.toString()
+    isNewOperation.value = false
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('A------------------')
   } else {
-    currentNumber.value += num.toString()
+    currentNumber.value = currentNumber.value === '0' ? num.toString() : currentNumber.value + num.toString()
+    console.log('currentNumber:',currentNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('B------------------')
+  }
+}
+
+// 乘除號先運算時
+const executeOperation = () => {
+  if (operation.value === '*' || operation.value === '/') {
+    previousNumber.value = calculate(previousNumber.value || currentNumber.value, currentNumber.value, operation.value)
+    currentNumber.value = previousNumber.value
+    operation.value = ''
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('C------------------')
+  } else if (pendingOperation.value) {
+    pendingNumber.value = calculate(pendingNumber.value || previousNumber.value, currentNumber.value, pendingOperation.value)
+    previousNumber.value = currentNumber.value
+    currentNumber.value = pendingNumber.value
+    pendingOperation.value = ''
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('D------------------')
+  } else {
+    pendingNumber.value = previousNumber.value || currentNumber.value
+    previousNumber.value = currentNumber.value
+    pendingOperation.value = operation.value
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('E------------------')
   }
 }
 
 const handleOperationClick = (op) => {
-  if (currentNumber.value === '' && result.value === '' && previousNumber.value === '') {
-    return
+  if (!isNewOperation.value) {
+    executeOperation()
   }
-
-  if (currentNumber.value === '' && result.value !== '') {
+  
+  if (op === '*' || op === '/') {
     operation.value = op
-    previousNumber.value = result.value
-    result.value = ''
-    return
-  }
-
-  if (previousNumber.value === '') {
-    // 第一次輸入操作符
-    previousNumber.value = currentNumber.value
-    currentNumber.value = ''
-    operation.value = op
-    return
-  } 
-
-  if (operation.value === '*' || operation.value === '/') {
-    // 執行乘除
-      result.value = calculatePartialResult()
-      previousNumber.value = result.value
-      currentNumber.value = ''
-    } else if (op === '+' || op === '-') {
-      if (operation.value === '*' || operation.value === '/') {
-        result.value = calculatePartialResult()
-        previousNumber.value = result.value
-        currentNumber.value = ''
-        operation.value = '' // 清除乘除操作
-      }
-
-      // 如果有待處理的加減，先計算加減
-      if (pendingOperation.value) {
-        result.value = calculateFinalResult()
-        previousNumber.value = result.value
-        currentNumber.value = ''
-      }
+  } else {
+    if (operation.value) {
       pendingOperation.value = op
     } else {
-    operation.value = op
+      operation.value = op
+    }
   }
-
+  isNewOperation.value = true
 }
 
+// 正負號切換
 const handleToggleSign = () => {
-  if(currentNumber.value){
-    currentNumber.value = (parseFloat(currentNumber.value)* -1).toString()
-  } else if(result.value){
-    result.value = (parseFloat(result.value)* -1).toString()
-  }
+  currentNumber.value = (parseFloat(currentNumber.value) * -1).toString()
 }
 
 const handleEqualsClick = () => {
-  if (operation.value === '' && pendingOperation.value === '') return
-
-  if (operation.value === '*' || operation.value === '/') {
-      result.value = calculatePartialResult()
-  }
+  executeOperation()
   if (pendingOperation.value) {
-      result.value = calculateFinalResult()
+    result.value = calculate(pendingNumber.value, currentNumber.value, pendingOperation.value)
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('=A------------------')
+  } else if (operation.value) {
+    result.value = calculate(pendingNumber.value, currentNumber.value, operation.value)
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('=B------------------')
+  } else {
+    result.value = currentNumber.value
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('=C------------------')
   }
-  previousNumber.value = ''
-  currentNumber.value = ''
+  currentNumber.value = result.value
+  previousNumber.value = result.value
+  pendingNumber.value = result.value
   operation.value = ''
   pendingOperation.value = ''
+  isNewOperation.value = true
 }
 
 const handleClearClick = () => {
-  currentNumber.value = ''
+  currentNumber.value = '0'
   previousNumber.value = ''
+  pendingNumber.value = ''
   operation.value = ''
-  result.value = ''
   pendingOperation.value = ''
+  result.value = ''
+  isNewOperation.value = true
 }
 
-// 千分位符號
-const formatNumber = (num) => {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-// 上方顯示計算值與結果
-const displayValue = computed(() => {
-  let value
-  if (currentNumber.value !== '') {
-    value = currentNumber.value
-  } else if (result.value !== '') {
-    value = result.value
-  } else if (previousNumber.value !== '') {
-    value = previousNumber.value
-  } else {
-    value = '0'
+// 添加小數點前，確認是否只有一個
+const handleDecimalClick = () => {
+  if (!currentNumber.value.includes('.')) {
+    currentNumber.value += '.'
+    isNewOperation.value = false
   }
-  return formatNumber(value)
+}
+
+// 讓值變成現在的 0.01 倍
+const handlePercent = () => {
+  if (currentNumber.value !== ''){
+      currentNumber.value = (parseFloat(currentNumber.value) * 0.01).toString()
+  }
+}
+
+const formatNumber = (num) => {
+  if (num === 'Error') return num
+  let [integer, decimal] = num.toString().split('.')
+  integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return decimal ? `${integer}.${decimal}` : integer
+}
+
+const displayValue = computed(() => {
+  return formatNumber(currentNumber.value)
 })
 </script>
 
@@ -184,7 +200,7 @@ const displayValue = computed(() => {
     <div class="flex mt-2 mx-4">
       <ButtonCal value="C" @click="handleClearClick" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
       <ButtonCal value="±" @click="handleToggleSign" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
-      <ButtonCal value="%" @click="handleOperationClick('%')" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
+      <ButtonCal value="%" @click="handlePercent" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
       <ButtonCal value="÷" @click="handleOperationClick('/')" class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400 text-white" />
     </div>
     <div class="flex mx-4">
@@ -207,11 +223,10 @@ const displayValue = computed(() => {
     </div>
     <div class="flex mx-4">
       <ButtonCal value="0" @click="handleNumberClick(0)" class="w-30 mb-5" />
-      <ButtonCal value="." @click="handleNumberClick('.')" />
+      <ButtonCal value="." @click="handleDecimalClick" />
       <ButtonCal value="=" @click="handleEqualsClick" class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400 text-white" />
     </div>
   </div>
-  
 </template>
 
 <style>
