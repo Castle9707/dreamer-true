@@ -32,6 +32,7 @@ const calculate = (a, b, op) => {
 // 按下數字鍵
 const handleNumberClick = (num) => {
   if (isNewOperation.value) {
+    // 每組數字的第一位
     currentNumber.value = num.toString()
     isNewOperation.value = false
     console.log('pendingNumber:',pendingNumber.value)
@@ -42,10 +43,11 @@ const handleNumberClick = (num) => {
     console.log('result:',result.value)
     console.log('A------------------')
   } else {
+    //每組數字第二位起
     currentNumber.value = currentNumber.value === '0' ? num.toString() : currentNumber.value + num.toString()
-    console.log('currentNumber:',currentNumber.value)
-    console.log('previousNumber:',previousNumber.value)
     console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
     console.log('operation:',operation.value)
     console.log('pendingOperation:',pendingOperation.value)
     console.log('result:',result.value)
@@ -55,9 +57,13 @@ const handleNumberClick = (num) => {
 
 // 乘除號先運算時
 const executeOperation = () => {
+  // 還是問題是出在這！
   if (operation.value === '*' || operation.value === '/') {
     previousNumber.value = calculate(previousNumber.value || currentNumber.value, currentNumber.value, operation.value)
-    currentNumber.value = previousNumber.value
+    // currentNumber.value = previousNumber.value //這邊修改待測試
+    currentNumber.value = calculate(pendingNumber.value, previousNumber.value, pendingOperation.value)
+    pendingNumber.value = currentNumber.value
+    pendingOperation.value = ''
     operation.value = ''
     console.log('pendingNumber:',pendingNumber.value)
     console.log('previousNumber:',previousNumber.value)
@@ -78,17 +84,27 @@ const executeOperation = () => {
     console.log('pendingOperation:',pendingOperation.value)
     console.log('result:',result.value)
     console.log('D------------------')
-  } else {
-    pendingNumber.value = previousNumber.value || currentNumber.value
+  } else if (operation.value) {
     previousNumber.value = currentNumber.value
-    pendingOperation.value = operation.value
-    console.log('pendingNumber:',pendingNumber.value)
-    console.log('previousNumber:',previousNumber.value)
-    console.log('currentNumber:',currentNumber.value)
-    console.log('operation:',operation.value)
-    console.log('pendingOperation:',pendingOperation.value)
-    console.log('result:',result.value)
-    console.log('E------------------')
+      pendingOperation.value = operation.value
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('result:',result.value)
+      console.log('E------------------')
+  } else {
+      pendingNumber.value = previousNumber.value || currentNumber.value
+      previousNumber.value = currentNumber.value
+      pendingOperation.value = operation.value
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('result:',result.value)
+      console.log('F------------------')
   }
 }
 
@@ -99,7 +115,8 @@ const handleOperationClick = (op) => {
   
   if (op === '*' || op === '/') {
     operation.value = op
-  } else {
+  } else { 
+    // 加或減
     if (operation.value) {
       pendingOperation.value = op
     } else {
@@ -177,6 +194,7 @@ const handlePercent = () => {
   }
 }
 
+// 加上千分位
 const formatNumber = (num) => {
   if (num === 'Error') return num
   let [integer, decimal] = num.toString().split('.')
@@ -184,6 +202,7 @@ const formatNumber = (num) => {
   return decimal ? `${integer}.${decimal}` : integer
 }
 
+// 畫面顯示的數字
 const displayValue = computed(() => {
   return formatNumber(currentNumber.value)
 })
