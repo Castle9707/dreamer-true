@@ -10,7 +10,7 @@ const previousNumber = ref('')
 const operation = ref('')
 // 最近一次的計算結果
 const result = ref('')
-// 是否為新的算式開始（乘除就算是一個新的、須先運算的）
+// 是否為新的數字開始（接在運算子後的第一個數字）
 const isNewOperation = ref(true)
 // 四則運算，儲存運算子與數字
 const pendingOperation = ref('')
@@ -132,6 +132,7 @@ const handleOperationClick = (op) => {
 // 正負號切換
 const handleToggleSign = () => {
   currentNumber.value = (parseFloat(currentNumber.value) * -1).toString()
+  updateClearButtonText()
 }
 
 const handleEqualsClick = () => {
@@ -190,6 +191,7 @@ const handleClearClick = () => {
   clearButtonText.value = 'AC'
 }
 
+// C/AC 按鈕內容切換
 const updateClearButtonText = () => {
   clearButtonText.value = currentNumber.value !== '0' ||
                           previousNumber.value !== '' ||
@@ -200,12 +202,20 @@ const updateClearButtonText = () => {
                           ? 'C' : 'AC'
 }
 
-// 添加小數點前，確認是否只有一個
+// 添加小數點
 const handleDecimalClick = () => {
   if (!currentNumber.value.includes('.')) {
-    currentNumber.value += '.'
-    isNewOperation.value = false
+    if (isNewOperation.value) {
+      currentNumber.value = '0.'
+      isNewOperation.value = false
+      console.log('GGGGG------')
+    } else {
+      currentNumber.value += '.'
+      isNewOperation.value = false
+      console.log('HHHHH------')
+    }
   }
+  updateClearButtonText()
 }
 
 // 讓值變成現在的 0.01 倍
@@ -213,6 +223,7 @@ const handlePercent = () => {
   if (currentNumber.value !== ''){
       currentNumber.value = (parseFloat(currentNumber.value) * 0.01).toString()
   }
+  updateClearButtonText()
 }
 
 // 加上千分位
