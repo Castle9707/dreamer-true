@@ -62,7 +62,6 @@ const handleNumberClick = (num) => {
 const executeOperation = () => {
   if (operation.value === '*' || operation.value === '/') {
     previousNumber.value = calculate(previousNumber.value || currentNumber.value, currentNumber.value, operation.value)
-    // currentNumber.value = previousNumber.value //這邊修改待測試
     currentNumber.value = calculate(pendingNumber.value, previousNumber.value, pendingOperation.value)
     pendingNumber.value = currentNumber.value
     pendingOperation.value = ''
@@ -135,6 +134,7 @@ const handleToggleSign = () => {
   updateClearButtonText()
 }
 
+// 按下等號
 const handleEqualsClick = () => {
   executeOperation()
   if (pendingOperation.value) {
@@ -173,6 +173,7 @@ const handleEqualsClick = () => {
   isNewOperation.value = true
 }
 
+// 按下清除按鈕
 const handleClearClick = () => {
   if (clearButtonText.value === 'AC'){
     // 清除全部
@@ -191,7 +192,7 @@ const handleClearClick = () => {
   clearButtonText.value = 'AC'
 }
 
-// C/AC 按鈕內容切換
+// C/AC 清除按鈕內容切換
 const updateClearButtonText = () => {
   clearButtonText.value = currentNumber.value !== '0' ||
                           previousNumber.value !== '' ||
@@ -208,12 +209,34 @@ const handleDecimalClick = () => {
     if (isNewOperation.value) {
       currentNumber.value = '0.'
       isNewOperation.value = false
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('result:',result.value)
       console.log('GGGGG------')
     } else {
       currentNumber.value += '.'
       isNewOperation.value = false
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('result:',result.value)
       console.log('HHHHH------')
     }
+  } else if (isNewOperation.value) {
+    currentNumber.value = '0.'
+    isNewOperation.value = false
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('IIIII------')
   }
   updateClearButtonText()
 }
@@ -229,9 +252,16 @@ const handlePercent = () => {
 // 加上千分位
 const formatNumber = (num) => {
   if (num === 'Error') return num
-  let [integer, decimal] = num.toString().split('.')
+  // 確保輸入是字串以便正確處理小數點
+  num = num.toString()
+  // 確保如果只有小數點沒有數字的情況下，正常顯示 '0.'
+  if (num === '.') num = '0.'
+  // 把數字拆分為「整數」與「小數點後的數字」
+  let [integer, decimal] = num.split('.')
   integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  return decimal ? `${integer}.${decimal}` : integer
+  // 確保返回格式正確，避免小數點重複或遺漏的情況
+  return decimal !== undefined ? `${integer}.${decimal}` : integer
+  // return decimal ? `${integer}.${decimal}` : integer
 }
 
 // 畫面顯示的數字
