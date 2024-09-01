@@ -12,9 +12,11 @@ const operation = ref('')
 const result = ref('')
 // 是否為新的算式開始（乘除就算是一個新的、須先運算的）
 const isNewOperation = ref(true)
-// 四則運算，預儲算式
+// 四則運算，儲存運算子與數字
 const pendingOperation = ref('')
 const pendingNumber = ref('')
+// C/AC 切換鈕
+const clearButtonText = ref('AC')
 
 // 運算子、計算
 const calculate = (a, b, op) => {
@@ -53,11 +55,11 @@ const handleNumberClick = (num) => {
     console.log('result:',result.value)
     console.log('B------------------')
   }
+  updateClearButtonText()
 }
 
 // 乘除號先運算時
 const executeOperation = () => {
-  // 還是問題是出在這！
   if (operation.value === '*' || operation.value === '/') {
     previousNumber.value = calculate(previousNumber.value || currentNumber.value, currentNumber.value, operation.value)
     // currentNumber.value = previousNumber.value //這邊修改待測試
@@ -86,25 +88,25 @@ const executeOperation = () => {
     console.log('D------------------')
   } else if (operation.value) {
     previousNumber.value = currentNumber.value
-      pendingOperation.value = operation.value
-      console.log('pendingNumber:',pendingNumber.value)
-      console.log('previousNumber:',previousNumber.value)
-      console.log('currentNumber:',currentNumber.value)
-      console.log('operation:',operation.value)
-      console.log('pendingOperation:',pendingOperation.value)
-      console.log('result:',result.value)
-      console.log('E------------------')
+    pendingOperation.value = operation.value
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('E------------------')
   } else {
-      pendingNumber.value = previousNumber.value || currentNumber.value
-      previousNumber.value = currentNumber.value
-      pendingOperation.value = operation.value
-      console.log('pendingNumber:',pendingNumber.value)
-      console.log('previousNumber:',previousNumber.value)
-      console.log('currentNumber:',currentNumber.value)
-      console.log('operation:',operation.value)
-      console.log('pendingOperation:',pendingOperation.value)
-      console.log('result:',result.value)
-      console.log('F------------------')
+    pendingNumber.value = previousNumber.value || currentNumber.value
+    previousNumber.value = currentNumber.value
+    pendingOperation.value = operation.value
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('F------------------')
   }
 }
 
@@ -124,6 +126,7 @@ const handleOperationClick = (op) => {
     }
   }
   isNewOperation.value = true
+  updateClearButtonText()
 }
 
 // 正負號切換
@@ -170,13 +173,31 @@ const handleEqualsClick = () => {
 }
 
 const handleClearClick = () => {
-  currentNumber.value = '0'
-  previousNumber.value = ''
-  pendingNumber.value = ''
-  operation.value = ''
-  pendingOperation.value = ''
-  result.value = ''
-  isNewOperation.value = true
+  if (clearButtonText.value === 'AC'){
+    // 清除全部
+    currentNumber.value = '0'
+    previousNumber.value = ''
+    pendingNumber.value = ''
+    operation.value = ''
+    pendingOperation.value = ''
+    result.value = ''
+    isNewOperation.value = true
+  } else {
+    // 清除 currentNumber
+    currentNumber.value = '0'
+    isNewOperation.value = true
+  }
+  clearButtonText.value = 'AC'
+}
+
+const updateClearButtonText = () => {
+  clearButtonText.value = currentNumber.value !== '0' ||
+                          previousNumber.value !== '' ||
+                          pendingNumber.value !== '' ||
+                          operation.value !== '' ||
+                          pendingOperation.value !== '' ||
+                          result.value !== '' 
+                          ? 'C' : 'AC'
 }
 
 // 添加小數點前，確認是否只有一個
@@ -217,7 +238,7 @@ const displayValue = computed(() => {
       <h4 class="mx-5 mb-2">{{ displayValue }}</h4>
     </div>
     <div class="flex mt-2 mx-4">
-      <ButtonCal value="C" @click="handleClearClick" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
+      <ButtonCal :value="clearButtonText" @click="handleClearClick" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
       <ButtonCal value="±" @click="handleToggleSign" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
       <ButtonCal value="%" @click="handlePercent" class="from-gray-900 to-gray-500 active:from-gray-950 active:to-gray-600 text-white" />
       <ButtonCal value="÷" @click="handleOperationClick('/')" class="from-orange-600 to-orange-300 active:from-orange-700 active:to-orange-400 text-white" />
