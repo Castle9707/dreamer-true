@@ -57,10 +57,29 @@ const handleNumberClick = (num) => {
   }
   updateClearButtonText()
 }
+// 按下運算子
+const handleOperationClick = (op) => {
+  // 前面有數字可以進行運算
+  if (!isNewOperation.value) {
+    executeOperation()
+  }
+  if (op === '*' || op === '/') {
+    operation.value = op
+  } else if (op === '+' || op === '-') { 
+    if (operation.value) {
+      pendingOperation.value = op
+    } else {
+      operation.value = op
+    }
+  }
+  isNewOperation.value = true
+  updateClearButtonText()
+}
 
-// 乘除號先運算時
+// 運算
 const executeOperation = () => {
   if (operation.value === '*' || operation.value === '/') {
+    // 只要 operation 是 * 或 / 
     previousNumber.value = calculate(previousNumber.value || currentNumber.value, currentNumber.value, operation.value)
     currentNumber.value = calculate(pendingNumber.value, previousNumber.value, pendingOperation.value)
     pendingNumber.value = currentNumber.value
@@ -73,30 +92,39 @@ const executeOperation = () => {
     console.log('pendingOperation:',pendingOperation.value)
     console.log('result:',result.value)
     console.log('C------------------')
-  } else if (pendingOperation.value) {
-    pendingNumber.value = calculate(pendingNumber.value || previousNumber.value, currentNumber.value, pendingOperation.value)
-    previousNumber.value = currentNumber.value
-    currentNumber.value = pendingNumber.value
-    pendingOperation.value = ''
-    console.log('pendingNumber:',pendingNumber.value)
-    console.log('previousNumber:',previousNumber.value)
-    console.log('currentNumber:',currentNumber.value)
-    console.log('operation:',operation.value)
-    console.log('pendingOperation:',pendingOperation.value)
-    console.log('result:',result.value)
-    console.log('D------------------')
   } else if (operation.value) {
-    previousNumber.value = currentNumber.value
-    pendingOperation.value = operation.value
-    console.log('pendingNumber:',pendingNumber.value)
-    console.log('previousNumber:',previousNumber.value)
-    console.log('currentNumber:',currentNumber.value)
-    console.log('operation:',operation.value)
-    console.log('pendingOperation:',pendingOperation.value)
-    console.log('result:',result.value)
-    console.log('E------------------')
+    // operation 是 + 或 - 
+    if (pendingOperation.value) {
+      pendingNumber.value = calculate(pendingNumber.value || previousNumber.value, currentNumber.value, pendingOperation.value)
+      previousNumber.value = currentNumber.value
+      currentNumber.value = pendingNumber.value
+      pendingOperation.value = ''
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('result:',result.value)
+      console.log('D------------------')  
+    } else {
+      // 這裡就是有問題的地方ㄚ
+      previousNumber.value = currentNumber.value
+      pendingOperation.value = operation.value
+      currentNumber.value = previousNumber.value
+      // 連續 + - 號的話，要寫這個算式
+      // currentNumber.value = calculate(pendingNumber.value || previousNumber.value, currentNumber.value, pendingOperation.value)
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('result:',result.value)
+      console.log('E------------------')  
+    }
+    operation.value = ''  
   } else {
-    pendingNumber.value = previousNumber.value || currentNumber.value
+    // 沒有 operation
+    pendingNumber.value = currentNumber.value
     previousNumber.value = currentNumber.value
     pendingOperation.value = operation.value
     console.log('pendingNumber:',pendingNumber.value)
@@ -107,25 +135,6 @@ const executeOperation = () => {
     console.log('result:',result.value)
     console.log('F------------------')
   }
-}
-
-const handleOperationClick = (op) => {
-  if (!isNewOperation.value) {
-    executeOperation()
-  }
-  
-  if (op === '*' || op === '/') {
-    operation.value = op
-  } else { 
-    // 加或減
-    if (operation.value) {
-      pendingOperation.value = op
-    } else {
-      operation.value = op
-    }
-  }
-  isNewOperation.value = true
-  updateClearButtonText()
 }
 
 // 正負號切換
@@ -184,10 +193,18 @@ const handleClearClick = () => {
     pendingOperation.value = ''
     result.value = ''
     isNewOperation.value = true
+    console.log('按下AC------全清空------')
   } else {
     // 清除 currentNumber
     currentNumber.value = '0'
     isNewOperation.value = true
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('result:',result.value)
+    console.log('按下C------------------')
   }
   clearButtonText.value = 'AC'
 }
