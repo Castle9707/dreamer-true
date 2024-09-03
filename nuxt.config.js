@@ -15,7 +15,8 @@ export default {
   },
 
   router: {
-    base: process.env.NODE_ENV === "production" ? "/dreamer-true/" : "/",
+    base: "/dreamer-true/",
+    // base: process.env.NODE_ENV === "production" ? "/dreamer-true/" : "/",
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -46,4 +47,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  compatibilityDate: "2024-09-03",
 };
