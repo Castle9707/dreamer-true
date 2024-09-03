@@ -14,6 +14,10 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
+  router: {
+    base: process.env.NODE_ENV === "production" ? "/dreamer-true/" : "/",
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ["~/assets/css/main.css"],
 
