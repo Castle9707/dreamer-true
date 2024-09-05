@@ -48,5 +48,9 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 
+  app: {
+    baseURL: "/dreamer-true/", // 替換為您的GitHub倉庫名稱
+  },
+
   compatibilityDate: "2024-09-03",
 };
