@@ -81,7 +81,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: /dreamer-true/${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
     steps:
