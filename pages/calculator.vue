@@ -61,6 +61,7 @@ const handleNumberClick = (num) => {
   }
   updateClearButtonText()
 }
+
 // 按下運算子
 const handleOperationClick = (op) => {
   // 最近一次按下的運算子
@@ -82,7 +83,7 @@ const handleOperationClick = (op) => {
   updateClearButtonText()
 }
 
-// 運算
+// 運算邏輯
 const executeOperation = () => {
   if (operation.value === '*' || operation.value === '/') {
     // 只要 operation 是 * 或 / 
@@ -217,7 +218,7 @@ const handleClearClick = () => {
     pendingNumber.value = ''
     operation.value = ''
     pendingOperation.value = ''
-  lastOperator.value = ''
+    lastOperator.value = ''
     result.value = ''
     isNewOperation.value = true
     console.log('按下AC------全清空------')
@@ -289,7 +290,7 @@ const handleDecimalClick = () => {
 // 讓值變成現在的 0.01 倍
 const handlePercent = () => {
   if (currentNumber.value !== ''){
-      currentNumber.value = (parseFloat(currentNumber.value) * 0.01).toString()
+      currentNumber.value = (parseFloat(currentNumber.value) / 100).toString()
   }
   updateClearButtonText()
 }
