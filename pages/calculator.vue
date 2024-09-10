@@ -12,6 +12,9 @@ const operation = ref('')
 const result = ref('')
 // 是否為新的數字開始（接在運算子後的第一個數字）
 const isNewOperation = ref(true)
+// 現在輸入的是：數字 / 運算子
+const isNumberNow = ref(false)
+const isOperatorNow = ref(false)
 // 四則運算，儲存運算子與數字
 const pendingOperation = ref('')
 const pendingNumber = ref('')
@@ -35,8 +38,11 @@ const calculate = (a, b, op) => {
 
 // 按下數字鍵
 const handleNumberClick = (num) => {
+  isNumberNow.value = true
+  isOperatorNow.value = false
   if (isNewOperation.value) {
     // 每組數字的第一位
+    previousNumber.value = currentNumber.value // 新加的
     currentNumber.value = num.toString()
     isNewOperation.value = false
     console.log('pendingNumber:',pendingNumber.value)
@@ -64,19 +70,56 @@ const handleNumberClick = (num) => {
 
 // 按下運算子
 const handleOperationClick = (op) => {
-  // 最近一次按下的運算子
+  isNumberNow.value = false
+  isOperatorNow.value = true
+  // 待解決的問題：連續按下運算子的話要變換成後一個運算子（中間可按正負號）
+  // 想法：新增兩個布林值（或一個？）判斷現在是正在按數字or運算子（正負號是數字喔）
+
+  // 更新最近一次按下的運算子
   lastOperator.value = op
+
   // 前面有數字可以進行運算
   if (!isNewOperation.value) {
     executeOperation()
   }
+
+  // 如果按下「乘、除」
   if (op === '*' || op === '/') {
     operation.value = op
+    console.log('pendingNumber:',pendingNumber.value)
+    console.log('previousNumber:',previousNumber.value)
+    console.log('currentNumber:',currentNumber.value)
+    console.log('operation:',operation.value)
+    console.log('pendingOperation:',pendingOperation.value)
+    console.log('lastOperator:',lastOperator.value)
+    console.log('result:',result.value)
+    console.log('===============>>op是乘除')
   } else if (op === '+' || op === '-') { 
-    if (operation.value) {
+    // 如果按下「加、減」
+    console.log('===============>>op是加減')
+    if (operation.value && isOperatorNow.value) {
+      // 如果之前是乘除，保留乘除，將加減作為待處理操作
       pendingOperation.value = op
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('lastOperator:',lastOperator.value)
+      console.log('result:',result.value)
+      console.log('===============>>運算A')
     } else {
+      // 否則直接更新當前操作
       operation.value = op
+      pendingOperation.value = ''
+      console.log('pendingNumber:',pendingNumber.value)
+      console.log('previousNumber:',previousNumber.value)
+      console.log('currentNumber:',currentNumber.value)
+      console.log('operation:',operation.value)
+      console.log('pendingOperation:',pendingOperation.value)
+      console.log('lastOperator:',lastOperator.value)
+      console.log('result:',result.value)
+      console.log('===============>>運算B')
     }
   }
   isNewOperation.value = true
@@ -160,12 +203,6 @@ const executeOperation = () => {
   }
 }
 
-// 正負號切換
-const handleToggleSign = () => {
-  currentNumber.value = (parseFloat(currentNumber.value) * -1).toString()
-  updateClearButtonText()
-}
-
 // 按下等號
 const handleEqualsClick = () => {
   executeOperation()
@@ -207,6 +244,8 @@ const handleEqualsClick = () => {
   pendingOperation.value = ''
   lastOperator.value = ''
   isNewOperation.value = true
+  isNumberNow.value = true
+  isOperatorNow.value = false
 }
 
 // 按下清除按鈕
@@ -221,17 +260,22 @@ const handleClearClick = () => {
     lastOperator.value = ''
     result.value = ''
     isNewOperation.value = true
+    isNumberNow.value = true
+    isOperatorNow.value = false
     console.log('按下AC------全清空------')
   } else {
     // 清除 currentNumber
     currentNumber.value = '0'
     lastOperator.value = ''
     isNewOperation.value = true
+    isNumberNow.value = true
+    isOperatorNow.value = false
     console.log('pendingNumber:',pendingNumber.value)
     console.log('previousNumber:',previousNumber.value)
     console.log('currentNumber:',currentNumber.value)
     console.log('operation:',operation.value)
     console.log('pendingOperation:',pendingOperation.value)
+    console.log('lastOperator:',lastOperator.value)
     console.log('result:',result.value)
     console.log('按下C------------------')
   }
@@ -247,6 +291,22 @@ const updateClearButtonText = () => {
                           pendingOperation.value !== '' ||
                           result.value !== '' 
                           ? 'C' : 'AC'
+}
+
+// 正負號切換
+const handleToggleSign = () => {
+  currentNumber.value = (parseFloat(currentNumber.value) * -1).toString()
+  updateClearButtonText()
+  isNumberNow.value = true
+  isOperatorNow.value = false
+  console.log('pendingNumber:',pendingNumber.value)
+  console.log('previousNumber:',previousNumber.value)
+  console.log('currentNumber:',currentNumber.value)
+  console.log('operation:',operation.value)
+  console.log('pendingOperation:',pendingOperation.value)
+  console.log('lastOperator:',lastOperator.value)
+  console.log('result:',result.value)
+  console.log('+/- ------------------')
 }
 
 // 添加小數點
@@ -291,6 +351,8 @@ const handleDecimalClick = () => {
 const handlePercent = () => {
   if (currentNumber.value !== ''){
       currentNumber.value = (parseFloat(currentNumber.value) / 100).toString()
+      isNumberNow.value = true
+      isOperatorNow.value = false
   }
   updateClearButtonText()
 }
