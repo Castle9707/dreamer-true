@@ -12,6 +12,12 @@ export default {
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [
+      {
+        async: true,
+        src: "https://unpkg.com/@material-tailwind/html/scripts/ripple.js",
+      },
+    ],
   },
 
   router: {
