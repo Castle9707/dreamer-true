@@ -9,7 +9,7 @@ const toggleMenu = () => {
 </script>
 
 <template>
-<nav class="block w-full max-w-screen-lg px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 lg:py-3 mt-10">
+<nav class="block w-full max-w-screen-lg px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 lg:py-3 mt-4">
   <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
     <NuxtLink to="/" class="mr-4 flex cursor-pointer py-1.5 text-base text-slate-800 font-semibold"><NuxtImg src="/logo_01.png" width="40" /></NuxtLink>
     <div class="hidden lg:block">

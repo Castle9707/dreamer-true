@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="card">
+  <div class="card mb-4 mx-auto">
     <div class="card_img"></div>
     <div class="card_content">
       <div class="card_content_header">
@@ -19,16 +19,16 @@
 <style>
 .card {
 	--circle-radius: 30px;
-	width: 240px;
-	min-height: 240px;
-	background-color: #1e1e1e;
+	width: 220px;
+	min-height: 220px;
+	background-color: #6c6c6c;
 	border-radius: var(--circle-radius);
 	overflow: hidden;
 }
 .card_img {
 	position: relative;
 	width: 100%;
-	height: 240px;
+	height: 220px;
 	background: url(../../static/images/caodong.jpg) no-repeat center center / cover;
 }
 /* 文字內容 */
@@ -63,7 +63,7 @@
 	width: 100%;
 	height: calc(var(--circle-radius) * 2);
 	border-radius: var(--circle-radius) var(--circle-radius) 0 0;
-	background-color: #1e1e1e;
+	background-color: #6c6c6c;
 }
 /* 右上半圓形白色區塊 */
 .card_img::after {
@@ -73,7 +73,7 @@
 	height: calc(var(--circle-radius) * 2); 
 	border-radius: 50%;
 	background: transparent;
-	box-shadow: var(--circle-radius) var(--circle-radius) 0 0 #1e1e1e;
+	box-shadow: var(--circle-radius) var(--circle-radius) 0 0 #6c6c6c;
 }
 
 /* 動畫 */

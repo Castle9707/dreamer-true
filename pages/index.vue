@@ -8,7 +8,17 @@ export default {
 </script>
 
 <template>
-  <div>我是首頁。</div>
   <!-- 準備先排版一下卡片 4張*2 -->
-  <AlbumCard />
+  <div class="container mx-auto">
+    <div class="columns-2 lg:columns-4 mt-4">
+      <AlbumCard />
+      <AlbumCard />
+      <AlbumCard />
+      <AlbumCard />
+      <AlbumCard />
+      <AlbumCard />
+      <AlbumCard />
+      <AlbumCard />
+    </div>
+  </div>
 </template>
