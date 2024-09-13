@@ -1,6 +1,6 @@
 <script setup>
-import { ref,computed } from 'vue';
-import ButtonCal from '../components/calculator/ButtonCal.vue';
+import { ref,computed } from 'vue'
+import ButtonCal from '../components/calculator/ButtonCal.vue'
 
 // 正在輸入的數字，按下數字按鈕，值就會更新
 const currentNumber = ref('') 
@@ -12,7 +12,7 @@ const operation = ref('')
 const result = ref('')
 // 是否為新的數字開始（接在運算子後的第一個數字）
 const isNewOperation = ref(true)
-// 現在輸入的是：數字 / 運算子
+// 前一個輸入的是：數字 / 運算子
 const isNumberNow = ref(false)
 const isOperatorNow = ref(false)
 // 四則運算，儲存運算子與數字
@@ -43,6 +43,7 @@ const handleNumberClick = (num) => {
   if (isNewOperation.value) {
     // 每組數字的第一位
     previousNumber.value = currentNumber.value // 新加的
+    // pendingNumber.value = currentNumber.value // 不能加這個辣
     currentNumber.value = num.toString()
     isNewOperation.value = false
     console.log('pendingNumber:',pendingNumber.value)
@@ -78,6 +79,11 @@ const handleOperationClick = (op) => {
   // 更新最近一次按下的運算子
   lastOperator.value = op
 
+  // // 如果前一個按下的是運算子 >> 這個解開超挫欸（超錯
+  // if (isOperatorNow.value){
+  //   operation.value = op
+  // }
+
   // 前面有數字可以進行運算
   if (!isNewOperation.value) {
     executeOperation()
@@ -97,7 +103,7 @@ const handleOperationClick = (op) => {
   } else if (op === '+' || op === '-') { 
     // 如果按下「加、減」
     console.log('===============>>op是加減')
-    if (operation.value && isOperatorNow.value) {
+    if (operation.value) {
       // 如果之前是乘除，保留乘除，將加減作為待處理操作
       pendingOperation.value = op
       console.log('pendingNumber:',pendingNumber.value)
