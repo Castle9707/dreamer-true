@@ -1,39 +1,45 @@
 <script setup>
 import { ref } from 'vue'
 
-const isMenuOpen = ref(false)
+const isMenuOpen = ref(false) // 電腦版
+const isWorkOpen = ref(false) // 手機版
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
 }
+const toggleWork = () => {
+  isWorkOpen.value = !isWorkOpen.value
+}
 </script>
 
 <template>
-<nav class="block w-full max-w-screen-lg px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 lg:py-3 mt-4">
+<nav class="w-full max-w-screen-lg px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 mt-4">
   <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
     <NuxtLink to="/" class="mr-4 flex cursor-pointer py-1.5 text-base text-slate-800 font-semibold"><NuxtImg src="/logo_01.png" width="40" /></NuxtLink>
     <div class="hidden lg:block">
-      <ul class="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
-          <NuxtLink to="/about">About</NuxtLink>
+      <ul class="flex items-center gap-8">
+        <li v-for="item in ['About', 'Calculator', 'Contact']" key="item" class="text-sm text-slate-600 hover:font-bold transition-all duration-200">
+          <NuxtLink :to="item === 'About' ? '/about' : item === 'Calculator' ? '/calculator' : '#'">{{ item }}</NuxtLink>
         </li>
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
-          <NuxtLink to="/calculator">Calculator</NuxtLink>
-        </li>
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600 dropdown">
-          <button class="dropbtn flex items-center">Works</button>
-            <div class="dropdown-content">
-              <NuxtLink to="#">Link 1</NuxtLink>
-              <NuxtLink to="#">Link 2</NuxtLink>
-              <NuxtLink to="#">Link 3</NuxtLink>
-            </div>
-        </li>
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
-          <NuxtLink to="#">Contact</NuxtLink>
+        <li class="relative">
+          <button @click="toggleWork" class="flex items-center text-sm text-slate-600 hover:font-bold transition-all duration-200">
+            Works
+            <svg class="w-4 h-4 ml-1 transition-transform duration-200" :class="{ 'rotate-180': isWorkOpen }" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+            </svg>
+          </button>
+          <transition
+            enter-active-class="transition ease-out duration-200"
+            enter-from-class="transform opacity-0 scale-90"
+            enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-150"
+            leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-90"
+          >
+          <div v-if="isWorkOpen" class="absolute right-0 w-36 mt-8 bg-white border rounded-md shadow-lg z-10 transition-all duration-500 ease-in-out" style="top: 100%;">
+            <NuxtLink v-for="link in ['Link 1', 'Link 2', 'Link 3']" :key="link" :to="'#'" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:font-bold">{{ link }}</NuxtLink>
+          </div>
+        </transition>
         </li>
       </ul>
     </div>
@@ -48,28 +54,24 @@ const toggleMenu = () => {
       </span>
     </button>
     <!-- Mobile menu -->
-    <div class="w-full overflow-hidden transition-all duration-500 ease-out lg:hidden" :class="isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'">
-      <ul class="flex flex-col gap-2 mt-2 mb-4">
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
-          <NuxtLink to="/about">About</NuxtLink>
+    <div class="w-full overflow-hidden transition-all duration-500 ease-out lg:hidden" :class="isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'">
+      <ul class="pt-2 pb-4 space-y-1 text-sm">
+        <li v-for="item in ['About', 'Calculator', 'Contact']" :key="item">
+          <NuxtLink :to="item === 'About' ? '/about' : item === 'Calculator' ? '/calculator' : '#'" class="block px-4 py-2 hover:bg-slate-100">{{ item }}</NuxtLink>
         </li>
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
-          <NuxtLink to="/calculator">Calculator</NuxtLink>
-        </li>
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600 dropdown">
-          <button class="dropbtn flex items-center">Works</button>
-            <div class="dropdown-content">
-              <NuxtLink to="#">Link 1</NuxtLink>
-              <NuxtLink to="#">Link 2</NuxtLink>
-              <NuxtLink to="#">Link 3</NuxtLink>
-            </div>
-        </li>
-        <li
-          class="flex items-center p-1 text-sm gap-x-2 text-slate-600">
-          <NuxtLink to="#">Contact</NuxtLink>
+        <li>
+          <button @click="toggleWork" class="flex items-center justify-between w-full px-4 py-2 hover:bg-slate-100">
+            Works
+            <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isWorkOpen }" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+            </svg>
+          </button>
+          <div 
+            class="overflow-hidden transition-all duration-300 ease-in-out"
+            :class="isWorkOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'"
+          >
+            <NuxtLink v-for="link in ['Link 1', 'Link 2', 'Link 3']" :key="link" :to="'#'" class="block px-6 py-2 hover:bg-slate-100">{{ link }}</NuxtLink>
+          </div>
         </li>
       </ul>
     </div>
@@ -78,39 +80,4 @@ const toggleMenu = () => {
 </template>
 
 <style scoped>
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-/* Dropdown Content (Hidden by Default) */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Links inside the dropdown */
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {
-  color: #7149c7;
-  font-weight: bold;
-}
 </style>
