@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-const isMenuOpen = ref(false) // 電腦版
-const isWorkOpen = ref(false) // 手機版
+const isMenuOpen = ref(false) // 漢堡選單
+const isWorkOpen = ref(false) // 多頁連結
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value
@@ -10,13 +11,26 @@ const toggleMenu = () => {
 const toggleWork = () => {
   isWorkOpen.value = !isWorkOpen.value
 }
+
+// 新增：在路由變更前重置狀態
+onBeforeRouteLeave(() => {
+  isMenuOpen.value = false
+  isWorkOpen.value = false
+})
+
+// 新增：監聽路由變化
+const router = useRouter()
+router.afterEach(() => {
+  isMenuOpen.value = false
+  isWorkOpen.value = false
+})
 </script>
 
 <template>
-<nav class="w-full max-w-screen-lg px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 mt-4">
+<nav class="w-full max-w-screen-xl px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 mt-4">
   <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
     <NuxtLink to="/" class="mr-4 flex cursor-pointer py-1.5 text-base text-slate-800 font-semibold"><NuxtImg src="/logo_01.png" width="40" /></NuxtLink>
-    <div class="hidden lg:block">
+    <div class="hidden md:block">
       <ul class="flex items-center gap-8">
         <li v-for="item in ['About', 'Calculator', 'Contact']" key="item" class="text-sm text-slate-600 hover:font-bold transition-all duration-200">
           <NuxtLink :to="item === 'About' ? '/about' : item === 'Calculator' ? '/calculator' : '#'">{{ item }}</NuxtLink>
@@ -37,7 +51,7 @@ const toggleWork = () => {
             leave-to-class="transform opacity-0 scale-90"
           >
           <div v-if="isWorkOpen" class="absolute right-0 w-36 mt-8 bg-white border rounded-md shadow-lg z-10 transition-all duration-500 ease-in-out" style="top: 100%;">
-            <NuxtLink v-for="link in ['Link 1', 'Link 2', 'Link 3']" :key="link" :to="'#'" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:font-bold">{{ link }}</NuxtLink>
+            <NuxtLink v-for="link in ['Calculator', 'To Do List', 'Link 3']" :key="link" :to="link === 'Calculator' ? '/calculator' : link === 'To Do List' ? '/todolist' : '#'" class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 hover:font-bold">{{ link }}</NuxtLink>
           </div>
         </transition>
         </li>
@@ -45,7 +59,7 @@ const toggleWork = () => {
     </div>
     <button
       @click="toggleMenu"
-      class="relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-xs font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
+      class="relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded-lg text-center align-middle text-xs font-medium uppercase text-inherit transition-all hover:bg-transparent focus:bg-transparent active:bg-transparent disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none md:hidden"
       type="button">
       <span class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2">
@@ -70,7 +84,7 @@ const toggleWork = () => {
             class="overflow-hidden transition-all duration-300 ease-in-out"
             :class="isWorkOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'"
           >
-            <NuxtLink v-for="link in ['Link 1', 'Link 2', 'Link 3']" :key="link" :to="'#'" class="block px-6 py-2 hover:bg-slate-100">{{ link }}</NuxtLink>
+            <NuxtLink v-for="link in ['Calculator', 'To Do List', 'Link 3']" :key="link" :to="link === 'Calculator' ? '/calculator' : link === 'To Do List' ? '/todolist' : '#'" class="block px-6 py-2 hover:bg-slate-100">{{ link }}</NuxtLink>
           </div>
         </li>
       </ul>
