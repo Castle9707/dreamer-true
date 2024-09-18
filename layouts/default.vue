@@ -3,12 +3,18 @@ import Navbar from "../components/layout/Navbar.vue"
 </script>
 
 <template>
-  <header>
-    <Navbar />
-  </header>
+<div class="back-img">
+  <Navbar />
   <div>
     <slot />
   </div>
+</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.back-img {
+  width: 100%;
+	height: 100%;
+  background: url(../static/images/wallpaper.jpg) no-repeat center center / cover;
+}
+</style>
