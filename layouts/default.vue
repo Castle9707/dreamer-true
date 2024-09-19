@@ -14,7 +14,8 @@ import Navbar from "../components/layout/Navbar.vue"
 <style scoped>
 .back-img {
   width: 100%;
-	height: 100%;
+	height: 100vh;
   background: url(../static/images/wallpaper.jpg) no-repeat center center / cover;
+  overflow: hidden;
 }
 </style>
