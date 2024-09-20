@@ -1,26 +1,22 @@
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 const btnText = ref('')
 
 // 當滑鼠進入時設定文字為 "Add"
 const handleMouseOver = () => {
-  btnText.value = 'Add'
+  btnText.value = 'New'
 }
 
 // 當滑鼠離開時清空文字
 const handleMouseLeave = () => {
   btnText.value = ''
 }
-
-const props = defineProps({
-  onClick: Function,
-})
 </script>
 
 <template>
   <button 
-    class="text-slate-50 bg-slate-900 hover:bg-slate-700 p-2 rounded-lg  transition-all duration-300 ease-in-out" 
-    @click="onClick"
+    class="text-slate-50 bg-slate-700 hover:bg-slate-800 p-2 rounded-lg  transition-all duration-300 ease-in-out" 
+    @click="$emit('click')"
     @mouseover="handleMouseOver" 
     @mouseleave="handleMouseLeave">
     <i class="ri-add-line text-lg font-medium p-1"></i>

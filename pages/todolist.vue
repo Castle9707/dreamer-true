@@ -1,9 +1,15 @@
 <script setup>
-import { ref,computed } from 'vue'
+import { ref, computed } from 'vue'
 import LeftBar from '../components/todolist/LeftBar.vue'
 import TodoCard from '../components/todolist/TodoCard.vue'
 import AddButton from '../components/todolist/AddButton.vue'
 import AddModal from '../components/todolist/AddModal.vue'
+
+import { storeToRefs } from 'pinia'
+import { useTodoStore } from '../store/note_stores'
+
+const todoStore = useTodoStore()
+const { todos } = storeToRefs(todoStore)
 
 const isModalOpen = ref(false)
 const openModal = () => {
@@ -12,6 +18,10 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false
 }
+
+const pinnedTodos = computed(()=> todos.value.filter(todo => todo.isPinned))
+const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinished))
+const completedTodos = computed(()=> todos.value.filter(todo => todo.isFinished))
 </script>
 
 <template>
@@ -21,27 +31,23 @@ const closeModal = () => {
     </div>
     <div class="w-3/4">
       <div class="flex justify-between mb-4">
-        <div class="text-3xl">Pinned</div>
-        <AddButton :onClick="openModal" />
+        <h3 class="text-3xl">Pinned</h3>
+        <AddButton @click="openModal" />
         <AddModal :isOpen="isModalOpen" :closeModal="closeModal" />
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <TodoCard />
-        <TodoCard />
-        <TodoCard />
-        <TodoCard />
+        <!-- 釘選 -->
+        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" />
       </div>
-      <div class="text-3xl my-4">Todo List</div>
+      <h3 class="text-3xl my-4">Todo List</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <TodoCard />
-        <TodoCard />
-        <TodoCard />
+        <!-- 待辦事項 -->
+        <TodoCard v-for="todo in uncompletedTodos" :key="todo.id" :todo="todo" />
       </div>
-      <div class="text-3xl my-4">Completed</div>
+      <h3 class="text-3xl my-4">Completed</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <TodoCard />
-        <TodoCard />
-        <TodoCard />
+        <!-- 已完成 -->
+        <TodoCard v-for="todo in completedTodos" :key="todo.id" :todo="todo" />
       </div>
     </div>
   </div>
