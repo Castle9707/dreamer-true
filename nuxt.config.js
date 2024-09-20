@@ -1,4 +1,4 @@
-export default {
+export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "dreamer-true",
@@ -49,7 +49,7 @@ export default {
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxt/image"],
+  modules: ["@nuxt/image", "@pinia/nuxt"],
 
   image: {
     dir: "static/images",
@@ -64,4 +64,4 @@ export default {
   },
 
   compatibilityDate: "2024-09-03",
-};
+});
