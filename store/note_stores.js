@@ -58,8 +58,8 @@ export const useTodoStore = defineStore("todos", {
         isFinished: false,
         isPinned: false,
       });
-      // title = "";
-      // content = "";
+      title = "";
+      content = "";
     },
     toggleTodo(id) {
       const index = this.todos.findIndex((v) => v.id === id);
@@ -71,7 +71,7 @@ export const useTodoStore = defineStore("todos", {
     },
     deleteTodo(id) {
       const index = this.todos.findIndex((v) => v.id === id);
-      this.todos[index].splice(index, 1);
+      this.todos.splice(index, 1);
     },
   },
 });

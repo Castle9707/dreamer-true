@@ -49,7 +49,7 @@ onBeforeUnmount(()=>{
 </script>
 
 <template>
-  <div class="w-fill flex p-4 bg-slate-400 text-slate-50 items-start rounded-lg  hover:shadow-slate-200 shadow-lg relative">
+  <div class="w-fill flex p-4 bg-slate-400 text-slate-50 items-start rounded-lg  hover:shadow-slate-200/50 shadow-xl relative">
     <!-- 勾選框 -->
     <div class="inline-flex items-center mt-1 me-1">
       <label class="flex items-center cursor-pointer relative">
@@ -76,12 +76,12 @@ onBeforeUnmount(()=>{
       leave-from-class="transform opacity-100 scale-100"
       leave-to-class="transform opacity-0 scale-90"
     >
-      <div v-if="isListOpen" ref="dropdownRef" class="absolute dropdown -top-16 -right-28 w-fit mt-8 bg-white border rounded-md shadow-lg z-10 transition-all duration-300 ease-in-out">
-        <ul class="text-slate-900 py-1 px-3 m-1">
-          <li @click="pinTodo" class="py-1">
+      <div v-if="isListOpen" ref="dropdownRef" class="absolute dropdown top-4 right-2 w-fit mt-8 bg-white border rounded-md shadow-lg z-10 transition-all duration-300 ease-in-out">
+        <ul class="text-slate-900 p-1 m-1">
+          <li @click="pinTodo" class="px-3 rounded py-1 cursor-pointer hover:bg-slate-200">
             <i :class="todo.isPinned ? 'ri-unpin-fill' : 'ri-pushpin-fill'" class="me-2"></i>{{ todo.isPinned ? 'Unpin' : 'Pin' }}</li>
-          <li @click="editTodo" class="py-1"><i class="ri-edit-2-fill me-2"></i>Edit</li>
-          <li @click="deleteTodo" class="py-1"><i class="ri-delete-bin-6-fill me-2"></i>Delete</li>
+          <li @click="editTodo" class="px-3 rounded py-1 cursor-pointer hover:bg-slate-200"><i class="ri-edit-2-fill me-2"></i>Edit</li>
+          <li @click="deleteTodo" class="px-3 rounded py-1 cursor-pointer hover:bg-slate-200"><i class="ri-delete-bin-6-fill me-2"></i>Delete</li>
         </ul>
       </div>
     </transition>

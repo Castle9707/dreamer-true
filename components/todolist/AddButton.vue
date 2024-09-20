@@ -15,7 +15,7 @@ const handleMouseLeave = () => {
 
 <template>
   <button 
-    class="text-slate-50 bg-slate-700 hover:bg-slate-800 p-2 rounded-lg  transition-all duration-300 ease-in-out" 
+    class="text-slate-50 bg-slate-700 hover:bg-slate-800 p-1 rounded-lg  transition-all duration-300 ease-in-out" 
     @click="$emit('click')"
     @mouseover="handleMouseOver" 
     @mouseleave="handleMouseLeave">
