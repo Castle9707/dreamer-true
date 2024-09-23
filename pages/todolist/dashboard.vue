@@ -15,9 +15,9 @@ const isModalOpen = ref(false)
 const openModal = () => {
   isModalOpen.value = true
 }
-const closeModal = () => {
-  isModalOpen.value = false
-}
+// const closeModal = () => {
+//   isModalOpen.value = false
+// }
 
 const pinnedTodos = computed(()=> todos.value.filter(todo => todo.isPinned))
 const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinished))
@@ -33,11 +33,11 @@ const completedTodos = computed(()=> todos.value.filter(todo => todo.isFinished)
       <div class="flex justify-between mb-4">
         <h3 class="text-3xl">Pinned</h3>
         <AddButton @click="openModal" />
-        <AddModal :isOpen="isModalOpen" :closeModal="closeModal" />
+        <AddModal :isOpen="isModalOpen" @close="isModalOpen = false" />
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 釘選 -->
-        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" />
+        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" class="bg-orange-400" />
       </div>
       <h3 class="text-3xl my-4">Todo List</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -47,7 +47,7 @@ const completedTodos = computed(()=> todos.value.filter(todo => todo.isFinished)
       <h3 class="text-3xl my-4">Completed</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 已完成 -->
-        <TodoCard v-for="todo in completedTodos" :key="todo.id" :todo="todo" />
+        <TodoCard v-for="todo in completedTodos" :key="todo.id" :todo="todo" class="bg-zinc-400" />
       </div>
     </div>
   </div>
