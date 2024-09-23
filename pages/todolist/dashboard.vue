@@ -1,9 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
-import LeftBar from '../components/todolist/LeftBar.vue'
-import TodoCard from '../components/todolist/TodoCard.vue'
-import AddButton from '../components/todolist/AddButton.vue'
-import AddModal from '../components/todolist/AddModal.vue'
+import LeftBar from '../../components/todolist/LeftBar.vue'
+import TodoCard from '../../components/todolist/TodoCard.vue'
+import AddButton from '../../components/todolist/AddButton.vue'
+import AddModal from '../../components/todolist/AddModal.vue'
 
 import { storeToRefs } from 'pinia'
 import { useTodoStore } from '../store/note_stores'
@@ -15,9 +15,6 @@ const isModalOpen = ref(false)
 const openModal = () => {
   isModalOpen.value = true
 }
-// const closeModal = () => {
-//   isModalOpen.value = false
-// }
 
 const pinnedTodos = computed(()=> todos.value.filter(todo => todo.isPinned))
 const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinished))
@@ -25,7 +22,7 @@ const completedTodos = computed(()=> todos.value.filter(todo => todo.isFinished)
 </script>
 
 <template>
-  <div class="container flex my-6 mx-auto gap-8 lg:px-8">
+  <div class="container flex my-6 mx-auto gap-8 w-5/6 lg:px-8">
     <div class="w-1/4">
       <LeftBar />
     </div>

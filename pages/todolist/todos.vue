@@ -20,7 +20,7 @@ const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinish
 </script>
 
 <template>
-  <div class="container flex my-6 mx-auto gap-8 lg:px-8">
+  <div class="container flex my-6 mx-auto gap-8 w-5/6 lg:px-8">
     <div class="w-1/4">
       <LeftBar />
     </div>
