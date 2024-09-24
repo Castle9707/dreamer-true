@@ -20,11 +20,11 @@ const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinish
 </script>
 
 <template>
-  <div class="container flex my-6 mx-auto gap-8 w-5/6 lg:px-8">
-    <div class="w-1/4">
+  <div class="container block sm:flex my-6 mx-auto gap-8 w-5/6 lg:px-8">
+    <div class="w-full sm:w-1/4">
       <LeftBar />
     </div>
-    <div class="w-3/4">
+    <div class="w-full sm:w-3/4">
       <div class="flex justify-between mb-4">
         <h3 class="text-3xl">Todo List</h3>
         <AddButton @click="openModal" />
