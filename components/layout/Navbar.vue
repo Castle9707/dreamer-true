@@ -27,7 +27,7 @@ router.afterEach(() => {
 </script>
 
 <template>
-<nav class="w-5/6 px-4 py-2 mx-auto text-white bg-white shadow-md rounded-md lg:px-8 mt-4">
+<nav class="w-5/6 px-4 py-2 bg-white shadow-md rounded-md fixed top-5 left-1/2 transform -translate-x-1/2 z-50">
   <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
     <NuxtLink to="/" class="mr-4 flex cursor-pointer py-1.5 text-base text-slate-800 font-semibold"><NuxtImg src="/logo_01.png" width="40" /></NuxtLink>
     <div class="hidden md:block">

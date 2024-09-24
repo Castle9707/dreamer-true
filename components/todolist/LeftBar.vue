@@ -24,7 +24,7 @@ watchEffect(() => {
 
 <template>
   <!-- 電腦版 -->
-  <div class="bg-slate-200 h-fit rounded-lg p-3 mb-4">
+  <div class="bg-slate-200 h-fit rounded-lg p-3 mb-4 min-w-40">
     <NuxtLink to="/todolist/dashboard">
       <div class="group flex rounded-lg py-2 px-3 mx-auto my-1 hover:bg-slate-500"
            :class="{ 'bg-slate-600': isActive.dashboard }">

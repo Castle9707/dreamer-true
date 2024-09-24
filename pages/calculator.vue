@@ -385,7 +385,7 @@ const displayValue = computed(() => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center my-10 font-bold text-slate-600">
+  <div class="flex justify-center items-center mb-7 font-bold text-slate-600">
     I spent {{ displayValue }} dollars today...
   </div>
   <div class="rounded-2xl w-72 h-fit mx-auto bg-gradient-to-br from-gray-300 to-gray-200 cal-shadow">

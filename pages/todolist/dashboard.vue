@@ -55,17 +55,17 @@ const completedTodos = computed(()=> todos.value.filter(todo => todo.isFinished)
           @close="closeEditModal" 
         />
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 釘選 -->
         <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" class="bg-orange-400" @edit="openEditModal" />
       </div>
       <h3 class="text-3xl my-4">Todo List</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 待辦事項 -->
         <TodoCard v-for="todo in uncompletedTodos" :key="todo.id" :todo="todo" @edit="openEditModal" />
       </div>
       <h3 class="text-3xl my-4">Completed</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 已完成 -->
         <TodoCard v-for="todo in completedTodos" :key="todo.id" :todo="todo" class="bg-zinc-400" @edit="openEditModal" />
       </div>

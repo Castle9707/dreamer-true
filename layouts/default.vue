@@ -5,7 +5,7 @@ import Navbar from "../components/layout/Navbar.vue"
 <template>
 <div class="back-img">
   <Navbar />
-  <div>
+  <div class="mt-28">
     <slot />
   </div>
 </div>
@@ -14,7 +14,7 @@ import Navbar from "../components/layout/Navbar.vue"
 <style scoped>
 .back-img {
   width: 100%;
-	height: 100vh;
+	min-height: 100vh;
   background: url(../static/images/wallpaper.jpg) no-repeat center center / cover;
   overflow: hidden;
 }
