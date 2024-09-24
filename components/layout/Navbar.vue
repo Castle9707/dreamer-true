@@ -71,10 +71,10 @@ router.afterEach(() => {
     <div class="w-full overflow-hidden transition-all duration-500 ease-out lg:hidden" :class="isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'">
       <ul class="pt-2 pb-4 space-y-1 text-sm">
         <li v-for="item in ['About', 'Contact']" :key="item">
-          <NuxtLink :to="item === 'About' ? '/about' : '#'" class="block px-4 py-2 hover:bg-slate-100">{{ item }}</NuxtLink>
+          <NuxtLink :to="item === 'About' ? '/about' : '#'" class="block px-4 py-2 hover:bg-slate-100 rounded-md">{{ item }}</NuxtLink>
         </li>
         <li>
-          <button @click="toggleWork" class="flex items-center justify-between w-full px-4 py-2 hover:bg-slate-100">
+          <button @click="toggleWork" class="flex items-center justify-between w-full px-4 py-2 rounded-md hover:bg-slate-100">
             Works
             <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isWorkOpen }" viewBox="0 0 24 24">
               <path fill="currentColor" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
@@ -84,7 +84,7 @@ router.afterEach(() => {
             class="overflow-hidden transition-all duration-300 ease-in-out"
             :class="isWorkOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'"
           >
-            <NuxtLink v-for="link in ['Calculator', 'To Do List', 'Building...']" :key="link" :to="link === 'Calculator' ? '/calculator' : link === 'To Do List' ? '/todolist/dashboard' : '#'" class="block px-6 py-2 hover:bg-slate-100">{{ link }}</NuxtLink>
+            <NuxtLink v-for="link in ['Calculator', 'To Do List', 'Building...']" :key="link" :to="link === 'Calculator' ? '/calculator' : link === 'To Do List' ? '/todolist/dashboard' : '#'" class="block px-6 py-2 rounded-md hover:bg-slate-100">{{ link }}</NuxtLink>
           </div>
         </li>
       </ul>
