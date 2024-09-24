@@ -4,16 +4,31 @@ import LeftBar from '../../components/todolist/LeftBar.vue'
 import TodoCard from '../../components/todolist/TodoCard.vue'
 import AddButton from '../../components/todolist/AddButton.vue'
 import AddModal from '../../components/todolist/AddModal.vue'
-
+import EditModal from '../../components/todolist/EditModal.vue'
 import { storeToRefs } from 'pinia'
 import { useTodoStore } from '../store/note_stores'
 
 const todoStore = useTodoStore()
 const { todos } = storeToRefs(todoStore)
 
-const isModalOpen = ref(false)
-const openModal = () => {
-  isModalOpen.value = true
+const isAddModalOpen = ref(false)
+const isEditModalOpen = ref(false)
+const editingTodoId = ref(null)
+
+const openAddModal = () => {
+  isAddModalOpen.value = true
+}
+const closeAddModal = () => {
+  isAddModalOpen.value = false
+}
+
+const openEditModal = (todoId = null) => {
+  editingTodoId.value = todoId
+  isEditModalOpen.value = true
+}
+const closeEditModal = () => {
+  isEditModalOpen.value = false
+  editingTodoId.value = null
 }
 
 const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinished))
@@ -27,12 +42,20 @@ const uncompletedTodos = computed(()=> todos.value.filter(todo => !todo.isFinish
     <div class="w-full sm:w-3/4">
       <div class="flex justify-between mb-4">
         <h3 class="text-3xl">Todo List</h3>
-        <AddButton @click="openModal" />
-        <AddModal :isOpen="isModalOpen" @close="isModalOpen = false" />
+        <AddButton @click="openAddModal" />
+        <AddModal 
+          :isOpen="isAddModalOpen" 
+          @close="closeAddModal" 
+        />
+        <EditModal 
+          :isOpen="isEditModalOpen" 
+          :editingTodoId="editingTodoId"
+          @close="closeEditModal" 
+        />
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 待辦事項 -->
-        <TodoCard v-for="todo in uncompletedTodos" :key="todo.id" :todo="todo" />
+        <TodoCard v-for="todo in uncompletedTodos" :key="todo.id" :todo="todo" @edit="openEditModal" />
       </div>
     </div>
   </div>

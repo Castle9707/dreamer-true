@@ -34,7 +34,7 @@ const handleSubmit = () => {
     <div class="fixed inset-0 bg-gray-900 bg-opacity-50" @click="closeModal"></div>
 
     <!-- Modal 內容 -->
-    <div class="bg-white rounded-lg shadow-lg p-6 z-10 w-full max-w-lg">
+    <div class="bg-white rounded-lg shadow-lg p-6 z-10 w-3/4 max-w-lg">
       <form @submit.prevent="handleSubmit">
         <label for="title" class="text-lg text-slate-600 mb-3">Title</label>
         <input type="text" id="title" class="border px-4 py-2 mb-2 rounded-lg w-full" placeholder="標題..." v-model="newTodoTitle" />
