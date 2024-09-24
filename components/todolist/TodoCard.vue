@@ -9,6 +9,8 @@ const isListOpen = ref(false)
 const dropdownRef = ref(null)
 const buttonRef = ref(null)
 
+const emit = defineEmits(['edit'])
+
 const toggleList = () => {
   isListOpen.value = !isListOpen.value
 }
@@ -33,7 +35,8 @@ const pinTodo = () => {
 }
 
 const editTodo = () => {
-  // Implement edit functionality
+  emit('edit', props.todo.id)
+  closeList()
 }
 
 const deleteTodo = () => {

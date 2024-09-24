@@ -61,6 +61,25 @@ export const useTodoStore = defineStore("todos", {
       title = "";
       content = "";
     },
+    editTodo(id, title, content) {
+      const numId = Number(id);
+      const index = this.todos.findIndex((v) => v.id === numId);
+      if (index === -1) {
+        console.error("待辦事項未找到");
+        return false;
+      }
+      if (title.trim().length === 0) {
+        console.error("標題不能為空");
+        return false;
+      }
+      this.todos[index] = {
+        ...this.todos[index],
+        title: title.trim(),
+        content: content.trim(),
+      };
+      // console.log(this.todos[index]);
+      return true;
+    },
     toggleTodo(id) {
       const index = this.todos.findIndex((v) => v.id === id);
       this.todos[index].isFinished = !this.todos[index].isFinished;
