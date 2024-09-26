@@ -19,7 +19,7 @@ const handleClick = () => {
   </button>
 </template>
 
-<style>
+<style scoped>
 .btn-shadow{  
   box-shadow: 3px 3px 4px 0 rgba(0,0,0,0.2),
   -3px -3px 4px 0 rgba(255,255,255,0.6);
