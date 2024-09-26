@@ -32,6 +32,7 @@ const toggleTodo = () => {
 
 const pinTodo = () => {
   todoStore.pinTodo(props.todo.id)
+  closeList()
 }
 
 const editTodo = () => {
