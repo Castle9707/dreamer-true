@@ -60,7 +60,7 @@ export default defineNuxtConfig({
 
   // GitHub儲存庫名稱
   app: {
-    baseURL: process.env.BASE_URL || "/dreamer-true/",
+    baseURL: "/dreamer-true/",
   },
 
   compatibilityDate: "2024-09-03",
