@@ -11,7 +11,9 @@ export default defineNuxtConfig({
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/dreamer-true/favicon.ico" },
+    ],
     script: [
       {
         async: true,
@@ -22,7 +24,6 @@ export default defineNuxtConfig({
 
   router: {
     base: "/dreamer-true/",
-    // base: process.env.NODE_ENV === "production" ? "/dreamer-true/" : "/",
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -56,7 +57,7 @@ export default defineNuxtConfig({
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: { publicPath: "/dreamer-true/_nuxt/" },
 
   // GitHub儲存庫名稱
   app: {
