@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 
 import { storeToRefs } from 'pinia'
 import { useTodoStore } from '../../store/note_stores'
