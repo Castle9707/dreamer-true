@@ -50,7 +50,7 @@ export default defineNuxtConfig({
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxt/image", "@pinia/nuxt"],
+  modules: ["@pinia/nuxt"],
 
   image: {
     dir: "static/images",
