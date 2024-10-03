@@ -14,7 +14,7 @@
         <h4>Web</h4>
         <i class="ms-auto ri-arrow-right-s-line"></i>
       </NuxtLink>
-      <NuxtLink to="https://github.com/Castle9707/Makin-FrontEnd.git" target="_blank" rel="noopener"  class="link-hover flex text-xl mb-2 mx-2">
+      <NuxtLink to="https://github.com/Castle9707/Makin-FrontEnd.git" target="_blank" rel="noopener"  class="link-hover flex text-xl mb-8 mx-2">
         <h4>GitHub</h4>
         <i class="ms-auto ri-arrow-right-s-line"></i>
       </NuxtLink>
