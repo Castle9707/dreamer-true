@@ -5,6 +5,8 @@ import Makin from '@/components/about/Makin.vue'
 import SkillsCard from '@/components/about/SkillsCard.vue'
 import SliderCard from '@/components/about/SliderCard.vue'
 import Github from '@/components/about/Github.vue'
+import RollingBall from '@/components/about/RollingBall.vue'
+import Experience from '@/components/about/Experience.vue'
 </script>
 
 <template>
@@ -16,21 +18,29 @@ import Github from '@/components/about/Github.vue'
       <div class="w-full bg-slate-100/80 rounded-lg col-span-4 md:col-span-2 backdrop-blur outline outline-offset-4">
         <BasicInfo />
       </div>
+
       <!-- 特質 -->
       <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">特質</div>
+
       <!-- 裝飾性直式欄位＋title -->
       <div class="w-full bg-slate-100/30 rounded-lg row-span-2 hidden md:block backdrop-blur outline outline-offset-4">裝飾性直式欄位＋title</div>
+
       <!-- 技能（設計＋程式）icon -->
-      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4"><SkillsCard /></div>
+      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
+        <SkillsCard />
+      </div>
+
       <!-- Github連結、跳色設計 -->
       <div class="w-full bg-cyan-800/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
         <Github />
       </div>
+
       <!-- 計算機小機關&連結 -->
-      <div class="w-full h-fit bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
+      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
         <ButtonGame />
       </div>
     </div>
+
     <!-- 跑馬燈 -->
     <div class="w-full bg-slate-100/30 rounded-lg my-8 p-2 text-xl backdrop-blur outline outline-offset-4 overflow-hidden flex">
       <div class="marquee-content-1">
@@ -49,14 +59,24 @@ import Github from '@/components/about/Github.vue'
       <div class="w-full rounded-lg col-span-4 md:col-span-2 backdrop-blur outline outline-offset-4 overflow-hidden">
         <SliderCard />
       </div>
+
       <!-- Makin專案連結 -->
       <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
         <Makin />
       </div>
+
       <!-- css旋轉球球 -->
-      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">css旋轉球球</div>
-      <div class="w-full bg-slate-100/30 rounded-lg col-span-4 row-span-3 md:col-span-3 md:row-span-2  backdrop-blur outline outline-offset-4">Work Experience</div>
+      <div class="w-full bg-indigo-600/50 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
+        <RollingBall />
+      </div>
+      <div class="w-full bg-slate-500/20 rounded-lg col-span-4 row-span-3 md:col-span-3 md:row-span-2  backdrop-blur outline outline-offset-4">
+        <Experience />
+      </div>
+
+      <!-- ??? -->
       <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">123</div>
+
+      <!-- 聯絡資訊 -->
       <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">contact聯絡資訊</div>
     </div>
   </div>
