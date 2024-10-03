@@ -55,7 +55,7 @@ const pinnedTodos = computed(()=> todos.value.filter(todo => todo.isPinned))
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 釘選 -->
-        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" @edit="openEditModal" class="bg-amber-500" />
+        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" @edit="openEditModal" class="bg-orange-500" />
       </div>
     </div>
   </div>

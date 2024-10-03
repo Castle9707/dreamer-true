@@ -57,7 +57,7 @@ const completedTodos = computed(()=> todos.value.filter(todo => todo.isFinished)
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <!-- 釘選 -->
-        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" class="bg-amber-500" @edit="openEditModal" />
+        <TodoCard v-for="todo in pinnedTodos" :key="todo.id" :todo="todo" class="bg-orange-500" @edit="openEditModal" />
       </div>
       <h3 class="text-3xl my-4">Todo List</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
