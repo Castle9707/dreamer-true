@@ -7,6 +7,7 @@ import SliderCard from '@/components/about/SliderCard.vue'
 import Github from '@/components/about/Github.vue'
 import RollingBall from '@/components/about/RollingBall.vue'
 import Experience from '@/components/about/Experience.vue'
+import UIWorks from '@/components/about/UIWorks.vue'
 </script>
 
 <template>
@@ -20,10 +21,12 @@ import Experience from '@/components/about/Experience.vue'
       </div>
 
       <!-- 特質 -->
-      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">特質</div>
+      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4"></div>
 
       <!-- 裝飾性直式欄位＋title -->
-      <div class="w-full bg-slate-100/30 rounded-lg row-span-2 hidden md:block backdrop-blur outline outline-offset-4">裝飾性直式欄位＋title</div>
+      <div class="w-full bg-slate-100/30 rounded-lg row-span-2 hidden md:block backdrop-blur outline outline-offset-4">
+        <NuxtImg src="/portfolio.jpg" class="w-full h-full object-cover  rounded-lg" />
+      </div>
 
       <!-- 技能（設計＋程式）icon -->
       <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
@@ -73,8 +76,10 @@ import Experience from '@/components/about/Experience.vue'
         <Experience />
       </div>
 
-      <!-- ??? -->
-      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">123</div>
+      <!-- UI -->
+      <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">
+        <UIWorks />
+      </div>
 
       <!-- 聯絡資訊 -->
       <div class="w-full bg-slate-100/30 rounded-lg col-span-2 md:col-span-1 backdrop-blur outline outline-offset-4">contact聯絡資訊</div>
