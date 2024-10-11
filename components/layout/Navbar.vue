@@ -24,7 +24,7 @@ watch(() => route.fullPath, ()=> {
 // 定義導航項目
 const navItems = [
   { name: 'About', path: '/about' },
-  { name: 'Contact', path: '#' },
+  { name: 'Contact', path: '/contact' },
 ]
 
 const workItems = [
@@ -37,7 +37,7 @@ const workItems = [
 <template>
 <nav class="w-5/6 px-4 py-2 bg-white shadow-md rounded-md fixed top-5 left-1/2 transform -translate-x-1/2 z-50">
   <div class="container flex flex-wrap items-center justify-between mx-auto text-slate-800">
-    <NuxtLink to="/" class="mr-4 flex cursor-pointer py-1.5 text-base text-slate-800 font-semibold"><NuxtImg src="/logo_01.png" width="40" /></NuxtLink>
+    <NuxtLink to="/about" class="mr-4 flex cursor-pointer py-1.5 text-base text-slate-800 font-semibold"><NuxtImg src="/logo_01.png" width="40" /></NuxtLink>
     <div class="hidden md:block">
       <ul class="flex items-center gap-8">
         <li v-for="item in navItems" key="item.name" class="text-sm text-slate-600 hover:font-bold transition-all duration-200">
