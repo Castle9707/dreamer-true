@@ -30,14 +30,14 @@ const handleSubmit = () => {
 }
 </script>
 <template>
-  <div class="w-full">
-    <div class="grid grid-cols-2 gap-2 w-3/4 mx-auto mt-6 mb-3">
-      <ButtonCal value="4" class="mx-auto w-10 h-10 md:w-14 md:h-14" @click="handleNumberClick(4)" />
-      <ButtonCal value="8" class="mx-auto w-10 h-10 md:w-14 md:h-14" @click="handleNumberClick(8)" />
-      <ButtonCal value="2" class="mx-auto w-10 h-10 md:w-14 md:h-14" @click="handleNumberClick(2)" />
-      <ButtonCal value="0" class="mx-auto w-10 h-10 md:w-14 md:h-14" @click="handleNumberClick(0)" />
+  <div class="w-full flex flex-col items-center">
+    <div class="grid grid-cols-2 gap-2 w-3/4 mx-auto my-6">
+      <ButtonCal value="4" class="mx-auto w-9 h-9 md:w-12 md:h-12" @click="handleNumberClick(4)" />
+      <ButtonCal value="8" class="mx-auto w-9 h-9 md:w-12 md:h-12" @click="handleNumberClick(8)" />
+      <ButtonCal value="2" class="mx-auto w-9 h-9 md:w-12 md:h-12" @click="handleNumberClick(2)" />
+      <ButtonCal value="0" class="mx-auto w-9 h-9 md:w-12 md:h-12" @click="handleNumberClick(0)" />
     </div>
-    <div class="w-3/4 mx-auto mb-6 flex">
+    <div class="w-3/4 mx-auto my-6 flex">
       <button class="w-fit rounded border hover:border-slate-50 px-1.5 me-1 btn-shadow-sm" @click="handleClear">C</button>
       <input type="text" name="" id="" class="w-3/4 px-2 text-slate-600 rounded outline-0 bg-slate-50 btn-shadow-sm" readonly :value="password" />
       <button class="ms-1" @click="handleSubmit"><i class="ri-arrow-right-up-line p-1 bg-slate-400 hover:bg-slate-600 rounded btn-shadow-sm"></i></button>
