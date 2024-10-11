@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/dreamer-true/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css",
+      },
     ],
     script: [
       {
