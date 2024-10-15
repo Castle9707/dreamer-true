@@ -71,10 +71,17 @@ const handleNumberClick = (num) => {
 
 // 按下運算子
 const handleOperationClick = (op) => {
-  isNumberNow.value = false
-  isOperatorNow.value = true
+  // isNumberNow.value = false
+  // isOperatorNow.value = true
   // 待解決的問題：連續按下運算子的話要變換成後一個運算子（中間可按正負號）
   // 想法：新增兩個布林值（或一個？）判斷現在是正在按數字or運算子（正負號是數字喔）
+
+  // 如果前一個是「運算子」
+  if (isOperatorNow.value) {
+    // 改變
+    operation.value = op
+    pendingOperation.value = ''
+  }
 
   // 更新最近一次按下的運算子
   lastOperator.value = op
@@ -129,6 +136,8 @@ const handleOperationClick = (op) => {
     }
   }
   isNewOperation.value = true
+  isNumberNow.value = false
+  isOperatorNow.value = true
   updateClearButtonText()
 }
 
